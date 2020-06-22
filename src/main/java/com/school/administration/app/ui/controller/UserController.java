@@ -68,6 +68,11 @@ public class UserController {
 	@Autowired
 	InvoiceService invoiceService;
 	
+	@GetMapping
+	public String hello() {
+		return "Welcome to my channel!";
+	}
+	
 	@PostMapping(
 		path = "/user-registration",
 		consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
