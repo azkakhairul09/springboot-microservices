@@ -37,7 +37,7 @@ public class AppExceptionHandler {
  
         }
 		
-        if (queryString.equals("/school_administration/login")) 
+        if (queryString.equals("/login")) 
 		{
 			String errorCode = "err403";
 			String status = "failed to login";
@@ -48,7 +48,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
-        else if (queryString.equals("/school_administration/get-user") && queryString.equals("/school_administration/get-all-users")) 
+        else if (queryString.equals("/get-user") && queryString.equals("/get-all-users")) 
 		{	
 			String errorCode = "err91";
 			String status = "failed get user";
@@ -59,7 +59,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);	
 		} 
-		else if (queryString.equals("/school_administration/user-registration")) 
+		else if (queryString.equals("/user-registration")) 
 		{
 			String errorCode = "err41";
 			String status = "failed create user";
@@ -70,7 +70,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);	
 		}
-		else if (queryString.equals("/school_administration/disactivate-user")) 
+		else if (queryString.equals("/disactivate-user")) 
 		{
 			String errorCode = "err41";
 			String status = "failed";
@@ -81,7 +81,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);	
 		}
-		else if (queryString.equals("/school_administration/update-detail-user")) 
+		else if (queryString.equals("/update-detail-user")) 
 		{
 			String errorCode = "err41";
 			String status = "failed update user";
@@ -92,7 +92,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);	
 		}
-		else if (queryString.equals("/school_administration/get-all-products") && queryString.equals("/school_administration/get-product")) 
+		else if (queryString.equals("/get-all-products") && queryString.equals("/get-product")) 
 		{
 			String errorCode = "err91";
 			String status = "failed get product";
@@ -103,7 +103,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
-		else if (queryString.equals("/school_administration/create-product")) 
+		else if (queryString.equals("/create-product")) 
 		{
 			String errorCode = "err41";
 			String status = "failed create product";
@@ -114,7 +114,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
-		else if (queryString.equals("/school_administration/audience-registration")) 
+		else if (queryString.equals("/audience-registration")) 
 		{
 			String errorCode = "err41";
 			String status = "failed create user";
@@ -125,7 +125,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
-		else if (queryString.equals("/school_administration/create-invoice")) 
+		else if (queryString.equals("/create-invoice")) 
 		{
 			String errorCode = "err41";
 			String status = "failed create invoice";
@@ -136,7 +136,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
-		else if (queryString.equals("/school_administration/get-all-invoices") && queryString.equals("/school_administration/get-invoice")) 
+		else if (queryString.equals("/get-all-invoices") && queryString.equals("/get-invoice")) 
 		{
 			String errorCode = "err91";
 			String status = "failed get invoice";

@@ -66,14 +66,14 @@ public class UserServiceImpl implements UserService {
 	Utils utils;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) {
-		UserEntity userEntity = userRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) {
+		UserEntity userEntity = userRepository.findByEmail(email);
 		
 		if (userEntity == null) throw new UsernameNotFoundException("user not found");
 		
 		if (userEntity.getIsActive().equals(false)) throw new UserServiceException("user is not active");
 		
-		return new User(userEntity.getUsername(), userEntity.getEncryptPassword(), 
+		return new User(userEntity.getEmail(), userEntity.getEncryptPassword(), 
 				userEntity.getIsActive(),
 				true, true,
 				true, new ArrayList<>());
