@@ -1,6 +1,7 @@
 D:\clone git\school-administration\src\main\java\com\school\administration\app\io\repositories\RoleRepository.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\io\entity\Invoice_ProductsEntity.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\InvoiceDto.java
+D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\contentResponse\ContentRole.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\service\impl\UserServiceImpl.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\io\entity\ProductsEntity.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\io\repositories\UserRepository.java
@@ -30,6 +31,7 @@ D:\clone git\school-administration\src\main\java\com\school\administration\app\s
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\request\AddressRequestModel.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\UserDto.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\ProductsDto.java
+D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\request\RoleRequestModel.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\response\ErrorMessage.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\io\entity\TransactionEntity.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\contentResponse\ContentInvoice.java

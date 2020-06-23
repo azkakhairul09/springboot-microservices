@@ -6,4 +6,5 @@ import com.school.administration.app.shared.dto.RoleDto;
 
 public interface RoleService extends UserDetailsService {
 	RoleDto getRole(String id);
+	RoleDto createRole(RoleDto role);
 }

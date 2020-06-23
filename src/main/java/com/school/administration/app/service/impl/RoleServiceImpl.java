@@ -1,5 +1,6 @@
 package com.school.administration.app.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,22 @@ public class RoleServiceImpl implements RoleService{
 				"role id not found");
 		
 		BeanUtils.copyProperties(roleEntity, returnValue);
+		
+		return returnValue;
+	}
+
+	@Override
+	public RoleDto createRole(RoleDto role) {
+		// TODO Auto-generated method stub
+		if (roleRepository.findRoleIdByRoleId(role.getRoleId()) != null) throw new UserServiceException("role id is duplicate entry");
+		if (roleRepository.findRoleNameByRoleName(role.getRoleName()) != null) throw new UserServiceException("role name is duplicate entry");
+		
+		ModelMapper modelMapper = new ModelMapper();
+		RoleEntity roleEntity = modelMapper.map(role, RoleEntity.class);
+		
+		RoleEntity roleDetail = roleRepository.save(roleEntity);
+		
+		RoleDto returnValue = modelMapper.map(roleDetail, RoleDto.class);
 		
 		return returnValue;
 	}

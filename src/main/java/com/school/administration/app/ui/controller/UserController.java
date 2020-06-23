@@ -34,26 +34,31 @@ import com.school.administration.app.io.repositories.UserRepository;
 import com.school.administration.app.security.SecurityConstant;
 import com.school.administration.app.service.AddressService;
 import com.school.administration.app.service.InvoiceService;
+import com.school.administration.app.service.RoleService;
 import com.school.administration.app.service.UserService;
 import com.school.administration.app.shared.dto.HistoryDto;
 import com.school.administration.app.shared.dto.InvoiceDto;
 import com.school.administration.app.shared.dto.ProductsDto;
+import com.school.administration.app.shared.dto.RoleDto;
 import com.school.administration.app.shared.dto.UserDto;
 import com.school.administration.app.ui.io.entity.UserEntity;
 import com.school.administration.app.ui.model.contentResponse.ContentInvoice;
 import com.school.administration.app.ui.model.contentResponse.ContentInvoices;
 import com.school.administration.app.ui.model.contentResponse.ContentProduct;
 import com.school.administration.app.ui.model.contentResponse.ContentProducts;
+import com.school.administration.app.ui.model.contentResponse.ContentRole;
 import com.school.administration.app.ui.model.contentResponse.ContentUser;
 import com.school.administration.app.ui.model.contentResponse.ContentUsers;
 import com.school.administration.app.ui.model.request.InvoiceRequestModel;
 import com.school.administration.app.ui.model.request.ProductRequestModel;
+import com.school.administration.app.ui.model.request.RoleRequestModel;
 import com.school.administration.app.ui.model.request.UserDetailRequestModel;
 import com.school.administration.app.ui.model.request.UserRequestModel;
 import com.school.administration.app.ui.model.response.InvoiceResponse;
 import com.school.administration.app.ui.model.response.UserResponse;
 
 import com.school.administration.app.ui.model.response.ProductResponse;
+import com.school.administration.app.ui.model.response.RoleResponse;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000/", "https://sangbango-project.web.app/"})
@@ -61,6 +66,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	RoleService roleService;
 	
 	@Autowired
 	AddressService addressService;
@@ -99,6 +107,33 @@ public class UserController {
 		
 		return result;
 	}
+	
+	@PostMapping(
+			path = "/roles",
+			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+			)
+		public ContentRole createRoles(
+				@RequestBody RoleRequestModel role) throws Exception {
+			RoleResponse returnValue = new RoleResponse();
+			
+			ContentRole result = new ContentRole();
+			
+			if (role.getRoleName().isEmpty()) throw new NullPointerException("Role name may not be null");
+			if (role.getRoleId().isEmpty()) throw new NullPointerException("Role id may not be null");
+			
+			ModelMapper modelMapper = new ModelMapper();
+			RoleDto roleDto = modelMapper.map(role, RoleDto.class);
+			
+			RoleDto createdRole = roleService.createRole(roleDto);
+			returnValue = modelMapper.map(createdRole, RoleResponse.class);
+			
+			result.setContent(returnValue);
+			result.setErrorCode("201");
+			result.setErrorDesc("created");
+			
+			return result;
+		}
 	
 	@GetMapping(
 			path = "/get-all-users", 

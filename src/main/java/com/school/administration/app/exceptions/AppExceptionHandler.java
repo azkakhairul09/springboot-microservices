@@ -136,6 +136,17 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
+		else if (queryString.equals("/roles")) 
+		{
+			String errorCode = "err41";
+			String status = "failed create role";
+			HttpStatus oke = HttpStatus.valueOf(200);
+			Date date = Calendar.getInstance().getTime();
+			
+			ErrorMessage errorMessage = new ErrorMessage(errorCode, status, ex.getLocalizedMessage(), date);
+			
+			return new ResponseEntity<>(errorMessage, oke);
+		}
 		else if (queryString.equals("/get-all-invoices") && queryString.equals("/get-invoice")) 
 		{
 			String errorCode = "err91";
