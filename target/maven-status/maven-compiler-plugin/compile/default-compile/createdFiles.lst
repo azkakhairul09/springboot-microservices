@@ -65,6 +65,7 @@ com\school\administration\app\ui\io\entity\AddressEntity.class
 com\school\administration\app\io\repositories\ProductsRepository.class
 com\school\administration\app\SpringApplicationContext.class
 com\school\administration\app\WebConfig.class
+com\school\administration\app\ui\controller\UserController$8.class
 com\school\administration\app\security\SecurityConstant.class
 com\school\administration\app\ui\model\request\RequestOperationStatus.class
 com\school\administration\app\security\AuthenticationFilter.class

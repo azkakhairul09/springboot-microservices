@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,8 +23,8 @@ import com.school.administration.app.ui.io.entity.ProductsEntity;
 
 @Component
 public class ScheduledTasks {
-	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
+//    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     
     @Autowired
     ProductsRepository productRepository;
@@ -69,12 +69,12 @@ public class ScheduledTasks {
 			}
 		}
 		
-    	logger.info(dateFormat.format(new Date()));
+//    	logger.info(dateFormat.format(new Date()));
     	
 		return returnValue;
 	}
     
-    @Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(cron = "* * * * * *")
 	public InvoiceDto checkExpiredInvoice() {
     	InvoiceDto returnValue = new InvoiceDto();
     	
@@ -82,15 +82,18 @@ public class ScheduledTasks {
 		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
 		 
-		Calendar currentTime = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
 		 
-		String date = formatter.format(currentTime.getTime());
+		String date = formatter.format(cal.getTime());
 		
 		List<InvoiceEntity> invoiceEntity = new ArrayList<InvoiceEntity>();
-		invoiceEntity = invoiceRepository.findInvoiceByCreatedDate(date);
+		Boolean expired = false;
+		invoiceEntity = invoiceRepository.findInvoiceByInvoiceDateAndIsExpired(date, expired);
 		
 		for (InvoiceEntity invoice : invoiceEntity)
 		{
+			System.out.println(invoice);
 			if (invoice.getIsExpired() == false) 
 			{
 				invoice.setIsExpired(true);
@@ -111,13 +114,13 @@ public class ScheduledTasks {
 			}
 		}
 		
-    	logger.info(dateFormat.format(new Date()));
+//    	logger.info(dateFormat.format(new Date()));
     	
 		return returnValue;
 	}
     
     
-    @Scheduled(cron = "*/1 * * * * *")
+    @Scheduled(cron = "* * * * * *")
     public InvoiceDto updateInvoice() {
     	InvoiceDto returnValue = new InvoiceDto();
     	

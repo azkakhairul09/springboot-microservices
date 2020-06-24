@@ -77,7 +77,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		if(productEntity.getIsExpired() == true) throw new UserServiceException("product is expired");
 		invoiceEntity.setProductId(productEntity);
 		
-		invoiceEntity.setInvoiceName("Invoice Pembayaran "+productEntity.getProductName()+" a/n "+userEntity.getFullName());
+		invoiceEntity.setInvoiceName("Invoice Pembayaran "+productEntity.getProductName());
 		invoiceEntity.setNominal(productEntity.getPrice());
 		invoiceEntity.setInfo(invoiceEntity.getInvoiceName());
 		
@@ -220,6 +220,25 @@ public class InvoiceServiceImpl implements InvoiceService{
 				"invoice not found");
 		
 		returnValue = modelMapper.map(invoiceEntity, InvoiceDto.class);
+		
+		return returnValue;
+	}
+
+	@Override
+	public List<InvoiceDto> getInvoicesUser(UserEntity userId) {
+		// TODO Auto-generated method stub
+		List<InvoiceDto> returnValue = new ArrayList<InvoiceDto>();
+		
+		ModelMapper modelMapper = new ModelMapper();
+		
+		List<InvoiceEntity> invoiceEntity = invoiceRepository.findInvoiceByUserId(userId);
+		
+		if (invoiceEntity == null) throw new UserServiceException(
+				"invoice not found");
+		
+		for (InvoiceEntity invoices : invoiceEntity) {
+			returnValue.add(modelMapper.map(invoices, InvoiceDto.class) );
+		}
 		
 		return returnValue;
 	}

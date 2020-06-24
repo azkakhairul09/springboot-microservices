@@ -340,6 +340,29 @@ public class UserController {
 		return result;
 	}
 	
+	@GetMapping(
+			path = "/get-all-invoices-user", 
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ContentInvoices getInvoicesUser(@RequestParam(value = "userId") UserEntity userId) {
+		List<InvoiceResponse> returnValue = new ArrayList<>();
+		
+		ContentInvoices result = new ContentInvoices();
+		
+		List<InvoiceDto> invoices = invoiceService.getInvoicesUser(userId);
+		
+		if (invoices != null && !invoices.isEmpty()) {
+			java.lang.reflect.Type listType = new TypeToken<List<InvoiceResponse>>() {
+			}.getType();
+			returnValue = new ModelMapper().map(invoices, listType);
+		}
+		
+		result.setContent(returnValue);
+		result.setErrorCode("0");
+		result.setErrorDesc("success get invoices");
+		
+		return result;
+	}
+	
 	@GetMapping(path = "/get-invoice", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE })
 	public ContentInvoice getInvoiceDetail(@RequestParam(value = "invoiceId") String invoiceId) {

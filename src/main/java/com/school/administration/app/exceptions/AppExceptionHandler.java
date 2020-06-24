@@ -147,7 +147,7 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
-		else if (queryString.equals("/get-all-invoices") && queryString.equals("/get-invoice")) 
+		else if (queryString.equals("/get-all-invoices") && queryString.equals("/get-invoice") && queryString.equals("/get-all-invoices-user")) 
 		{
 			String errorCode = "err91";
 			String status = "failed get invoice";
