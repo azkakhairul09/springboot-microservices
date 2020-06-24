@@ -10,7 +10,7 @@ public class SecurityConstant {
 	public static final String HEADER_STRING = "Authorization";
 	public static final String AUDIENCE_SIGN_UP_URL = "/audience-registration";
 	public static final String USER_SIGN_UP_URL = "/user-registration";
-	public static final String EDUCATION_YEAR = "/education-year";
+	public static final String ROLE = "/roles";
 	public static final String LOGIN = "/login";
 	public static final String HELLOWORLD = "/";
 	public static final String VERIFICATION_EMAIL_URL = "/email-verification";

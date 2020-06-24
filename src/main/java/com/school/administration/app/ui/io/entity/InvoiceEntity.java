@@ -42,6 +42,9 @@ public class InvoiceEntity implements Serializable{
 	private UserEntity userId;
 	
 	@Column(nullable = false)
+	private String user;
+	
+	@Column(nullable = false)
 	private String nominal;
 	
 	@Column(nullable = false)
@@ -224,5 +227,13 @@ public class InvoiceEntity implements Serializable{
 
 	public void setIsVerified(Boolean isVerified) {
 		this.isVerified = isVerified;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}	
 }

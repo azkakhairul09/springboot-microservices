@@ -343,12 +343,12 @@ public class UserController {
 	@GetMapping(
 			path = "/get-all-invoices-user", 
 			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ContentInvoices getInvoicesUser(@RequestParam(value = "userId") UserEntity userId) {
+	public ContentInvoices getInvoicesUser(@RequestParam(value = "userId") String user) {
 		List<InvoiceResponse> returnValue = new ArrayList<>();
 		
 		ContentInvoices result = new ContentInvoices();
 		
-		List<InvoiceDto> invoices = invoiceService.getInvoicesUser(userId);
+		List<InvoiceDto> invoices = invoiceService.getInvoicesUser(user);
 		
 		if (invoices != null && !invoices.isEmpty()) {
 			java.lang.reflect.Type listType = new TypeToken<List<InvoiceResponse>>() {

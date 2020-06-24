@@ -71,7 +71,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 		InvoiceEntity invoiceEntity = modelMapper.map(invoice, InvoiceEntity.class);
 		
 		UserEntity userEntity = userRepository.findUserByUserId(userId);
+		
+		System.out.println(userId);
 		invoiceEntity.setUserId(userEntity);
+		invoiceEntity.setUser(userId);
 		
 		ProductsEntity productEntity = productsRepository.findProductByProductId(productId);
 		if(productEntity.getIsExpired() == true) throw new UserServiceException("product is expired");
@@ -225,13 +228,13 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public List<InvoiceDto> getInvoicesUser(UserEntity userId) {
+	public List<InvoiceDto> getInvoicesUser(String user) {
 		// TODO Auto-generated method stub
 		List<InvoiceDto> returnValue = new ArrayList<InvoiceDto>();
 		
 		ModelMapper modelMapper = new ModelMapper();
 		
-		List<InvoiceEntity> invoiceEntity = invoiceRepository.findInvoiceByUserId(userId);
+		List<InvoiceEntity> invoiceEntity = invoiceRepository.findInvoiceByUser(user);
 		
 		if (invoiceEntity == null) throw new UserServiceException(
 				"invoice not found");

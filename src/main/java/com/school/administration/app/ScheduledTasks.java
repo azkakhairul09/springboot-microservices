@@ -74,7 +74,7 @@ public class ScheduledTasks {
 		return returnValue;
 	}
     
-    @Scheduled(cron = "* * * * * *")
+    @Scheduled(cron = "0 0 6 * * *")
 	public InvoiceDto checkExpiredInvoice() {
     	InvoiceDto returnValue = new InvoiceDto();
     	
