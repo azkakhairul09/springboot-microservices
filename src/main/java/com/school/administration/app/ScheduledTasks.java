@@ -120,41 +120,41 @@ public class ScheduledTasks {
 	}
     
     
-    @Scheduled(cron = "* * * * * *")
-    public InvoiceDto updateInvoice() {
-    	InvoiceDto returnValue = new InvoiceDto();
-    	
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.add(Calendar.HOUR_OF_DAY, -1);
-    	Date date = calendar.getTime();
-    	SimpleDateFormat sdfStopTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	String newStopTime = sdfStopTime.format(date);
-    	
-		List<InvoiceEntity> invoiceEntity = new ArrayList<InvoiceEntity>();
-		invoiceEntity = invoiceRepository.findInvoiceByCreatedDate(newStopTime);
-    	
-		for (InvoiceEntity invoice : invoiceEntity) 
-		{
-			if (invoice.getIsPayment() == false && invoice.getIsExpired() == false) 
-			{
-				invoice.setIsExpired(true);
-				
-				final String Date_Format = "yyyy-MM-dd HH:mm:ss";
-				SimpleDateFormat date_formatter = new SimpleDateFormat(Date_Format);
-				date_formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
-				 
-				Calendar current_time = Calendar.getInstance();
-				 
-				String modifiedDate = date_formatter.format(current_time.getTime());
-				invoice.setModifiedDate(modifiedDate);
-				invoice.setModifiedBy("System");
-				
-				InvoiceEntity updateInvoice = invoiceRepository.save(invoice);
-				
-				BeanUtils.copyProperties(updateInvoice,  returnValue);
-			}
-		}
-		
-    	return returnValue;	
-    }
+//    @Scheduled(cron = "* * * * * *")
+//    public InvoiceDto updateInvoice() {
+//    	InvoiceDto returnValue = new InvoiceDto();
+//    	
+//    	Calendar calendar = Calendar.getInstance();
+//    	calendar.add(Calendar.HOUR_OF_DAY, -1);
+//    	Date date = calendar.getTime();
+//    	SimpleDateFormat sdfStopTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//    	String newStopTime = sdfStopTime.format(date);
+//    	
+//		List<InvoiceEntity> invoiceEntity = new ArrayList<InvoiceEntity>();
+//		invoiceEntity = invoiceRepository.findInvoiceByCreatedDate(newStopTime);
+//    	
+//		for (InvoiceEntity invoice : invoiceEntity) 
+//		{
+//			if (invoice.getIsPayment() == false && invoice.getIsExpired() == false) 
+//			{
+//				invoice.setIsExpired(true);
+//				
+//				final String Date_Format = "yyyy-MM-dd HH:mm:ss";
+//				SimpleDateFormat date_formatter = new SimpleDateFormat(Date_Format);
+//				date_formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+//				 
+//				Calendar current_time = Calendar.getInstance();
+//				 
+//				String modifiedDate = date_formatter.format(current_time.getTime());
+//				invoice.setModifiedDate(modifiedDate);
+//				invoice.setModifiedBy("System");
+//				
+//				InvoiceEntity updateInvoice = invoiceRepository.save(invoice);
+//				
+//				BeanUtils.copyProperties(updateInvoice,  returnValue);
+//			}
+//		}
+//		
+//    	return returnValue;	
+//    }
 }
