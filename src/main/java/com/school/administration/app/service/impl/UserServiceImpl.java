@@ -130,19 +130,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> getUsers(int page, int limit) {
+	public List<UserDto> getUsers() {
 		// TODO Auto-generated method stub
 		List<UserDto> returnValue = new ArrayList<UserDto>();
 		
 		ModelMapper modelMapper = new ModelMapper();
+		Long userId = (long) 2;
 		
-		if (page>0) page = page-1;
-		
-		Pageable pageableRequest = PageRequest.of(page, limit);
-		
-		Page<UserEntity> usersPage = userRepository.findAll(pageableRequest);
-		
-		List<UserEntity> users = usersPage.getContent();
+		List<UserEntity> users = userRepository.findUserByIsActiveAndRoleIdOrderByCreatedDateDesc(true, userId);
 		
 		for (UserEntity userEntity : users) {
 			returnValue.add(modelMapper.map(userEntity, UserDto.class) );
@@ -180,13 +175,6 @@ public class UserServiceImpl implements UserService {
 		{
 			String addressId = userEntity.getAddress().getAddressId();
 			AddressEntity addressEntity = addressRepository.findByAddressId(addressId);
-			
-//			addressEntity.setFullAddress(address.getFullAddress());
-//			addressEntity.setCity(address.getCity());
-//			addressEntity.setDistrict(address.getDistrict());
-//			addressEntity.setProvince(address.getProvince());
-//			addressEntity.setPostalCode(address.getPostalCode());
-//			addressEntity.setSubDistrict(address.getSubDistrict());
 			
 			addressRepository.save(addressEntity);
 			

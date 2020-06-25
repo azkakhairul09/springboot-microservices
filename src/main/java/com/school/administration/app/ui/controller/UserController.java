@@ -138,13 +138,12 @@ public class UserController {
 	@GetMapping(
 			path = "/get-all-users", 
 			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ContentUsers getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
-								   @RequestParam(value = "limit", defaultValue = "25") int limit) {
+	public ContentUsers getUsers() {
 		List<UserResponse> returnValue = new ArrayList<>();
 		
 		ContentUsers result = new ContentUsers();
 		
-		List<UserDto> users = userService.getUsers(page, limit);
+		List<UserDto> users = userService.getUsers();
 		
 		if (users != null && !users.isEmpty()) {
 			java.lang.reflect.Type listType = new TypeToken<List<UserResponse>>() {
