@@ -32,9 +32,52 @@ public class ScheduledTasks {
     @Autowired
     InvoiceRepository invoiceRepository;
     
-    @Scheduled(cron = "0 0 6 * * *")
-	public ProductsDto updateExpiredProduct() {
+    @Scheduled(cron = "0 0 11 * * *")
+	public ProductsDto getNonExpiredProduct() {
     	ProductsDto returnValue = new ProductsDto();
+    	
+    	final String DATE_FORMAT_YEST = "yyyy-MM-dd";
+		SimpleDateFormat formatter_yest = new SimpleDateFormat(DATE_FORMAT_YEST);
+		formatter_yest.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+		 
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		 
+		String date_yest = formatter_yest.format(cal.getTime());
+		
+		List<ProductsEntity> productEntity = new ArrayList<ProductsEntity>();
+		productEntity = productRepository.findProductByExpiredDate(date_yest);
+		
+		System.out.println("SCHEDULE DATE YEST " +date_yest);
+		
+		for (ProductsEntity product : productEntity)
+		{
+			System.out.println("PRODUCT "+product);
+			if (product.getIsExpired() == false) 
+			{
+				product.setIsExpired(true);
+				
+				final String Date_Format = "yyyy-MM-dd HH:mm:ss";
+				SimpleDateFormat date_formatter = new SimpleDateFormat(Date_Format);
+				date_formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+				 
+				Calendar current_time = Calendar.getInstance();
+				 
+				String modifiedDate = date_formatter.format(current_time.getTime());
+				product.setModifiedDate(modifiedDate);
+				product.setModifiedBy("System");
+				
+				ProductsEntity updateProduct = productRepository.save(product);
+				
+				BeanUtils.copyProperties(updateProduct, returnValue);
+			}
+		}
+		return returnValue;
+    }
+		
+    @Scheduled(cron = "0 0 10 * * *")
+	public ProductsDto updateExpiredProduct() {
+    	ProductsDto returnValue = new ProductsDto();   	
     	
     	final String DATE_FORMAT = "yyyy-MM-dd";
 		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
@@ -47,8 +90,11 @@ public class ScheduledTasks {
 		List<ProductsEntity> productEntity = new ArrayList<ProductsEntity>();
 		productEntity = productRepository.findProductByExpiredDate(date);
 		
+		System.out.println("SCHEDULE DATE " +date);
+		
 		for (ProductsEntity product : productEntity)
 		{
+			System.out.println("PRODUCT "+product);
 			if (product.getIsExpired() == false) 
 			{
 				product.setIsExpired(true);

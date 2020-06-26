@@ -6,8 +6,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.administration.app.SpringApplicationContext;
+import com.school.administration.app.io.repositories.QrenNotifRepositories;
 import com.school.administration.app.io.repositories.UserRepository;
 import com.school.administration.app.security.SecurityConstant;
 import com.school.administration.app.service.AddressService;
@@ -39,8 +44,10 @@ import com.school.administration.app.service.UserService;
 import com.school.administration.app.shared.dto.HistoryDto;
 import com.school.administration.app.shared.dto.InvoiceDto;
 import com.school.administration.app.shared.dto.ProductsDto;
+import com.school.administration.app.shared.dto.QrenNotifDto;
 import com.school.administration.app.shared.dto.RoleDto;
 import com.school.administration.app.shared.dto.UserDto;
+import com.school.administration.app.ui.io.entity.QrenNotifEntity;
 import com.school.administration.app.ui.io.entity.UserEntity;
 import com.school.administration.app.ui.model.contentResponse.ContentInvoice;
 import com.school.administration.app.ui.model.contentResponse.ContentInvoices;
@@ -51,6 +58,7 @@ import com.school.administration.app.ui.model.contentResponse.ContentUser;
 import com.school.administration.app.ui.model.contentResponse.ContentUsers;
 import com.school.administration.app.ui.model.request.InvoiceRequestModel;
 import com.school.administration.app.ui.model.request.ProductRequestModel;
+import com.school.administration.app.ui.model.request.QrenNotifRequestModel;
 import com.school.administration.app.ui.model.request.RoleRequestModel;
 import com.school.administration.app.ui.model.request.UserDetailRequestModel;
 import com.school.administration.app.ui.model.request.UserRequestModel;
@@ -564,4 +572,58 @@ public class UserController {
 			System.err.println(e);
 		}
 	}
+	
+	@PostMapping(
+			path = "/qren_payment_notification",
+			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+			)
+		public void qrenNotif(QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception {
+			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
+			
+			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
+			qrenNotifEntity.setStatus(qrenNotif.getStatus());
+			qrenNotifEntity.setAmount(qrenNotif.getAmount());
+			qrenNotifEntity.setMerchantApiKey(qrenNotif.getMerchantApiKey());
+			qrenNotifEntity.setTrxId(qrenNotif.getTrxId());
+			qrenNotifEntity.setQrenTransId(qrenNotif.getQrentransid());
+			qrenNotifEntity.setMessage(qrenNotif.getMessage());
+			
+			QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
+			qrenNotifRepository.save(qrenNotifEntity);
+			
+			final String CREATED_DATE = "yyyy-MM-dd HH:mm:ss";
+			SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);
+			format.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+			
+			Calendar cal = Calendar.getInstance();
+			
+			String timeStamp = format.format(cal.getTime());
+			
+			QrenNotifDto qrenNotifDto = new QrenNotifDto();
+			qrenNotifDto.setStatus("0");
+			qrenNotifDto.setMessage("payment success");
+			qrenNotifDto.setTimeStamp(timeStamp);
+			
+			// Creating Object of ObjectMapper define in Jakson Api 
+	        ObjectMapper Obj = new ObjectMapper(); 
+	  
+	        try 
+	        { 
+	            // set object as a json string 
+	            String response = Obj.writeValueAsString(qrenNotifDto);
+	                     
+	            res.setStatus(HttpServletResponse.SC_OK);
+	    		res.setContentType("application/json");
+	    		res.getWriter().println(response);
+	    		res.getWriter().flush();
+	    		res.getWriter().close();
+	    		
+//	    		System.out.println(response);
+	        } 
+	        catch (IOException e) 
+	        { 
+	            e.printStackTrace(); 
+	        }       
+		}
 }

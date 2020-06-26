@@ -13,6 +13,7 @@ com\school\administration\app\ui\model\response\ProductResponse.class
 com\school\administration\app\shared\dto\HistoryDto.class
 com\school\administration\app\ui\controller\UserController$1.class
 com\school\administration\app\io\repositories\InvoiceRepository.class
+com\school\administration\app\ui\model\request\QrenNotifRequestModel.class
 com\school\administration\app\ui\model\request\UserDetailRequestModel.class
 com\school\administration\app\shared\dto\RoleDto.class
 com\school\administration\app\ui\model\contentResponse\ContentInvoices.class
@@ -25,6 +26,7 @@ com\school\administration\app\shared\dto\ForbiddenDto.class
 com\school\administration\app\ui\model\response\OperationStatusModel.class
 com\school\administration\app\ui\model\response\ErrorMessages.class
 com\school\administration\app\ui\io\entity\InvoiceEntity.class
+com\school\administration\app\ui\io\entity\QrenNotifEntity.class
 com\school\administration\app\ui\io\entity\RoleEntity.class
 com\school\administration\app\ui\model\response\ErrorMessage.class
 com\school\administration\app\ui\model\response\HistoryResponse.class
@@ -67,6 +69,7 @@ com\school\administration\app\SpringApplicationContext.class
 com\school\administration\app\WebConfig.class
 com\school\administration\app\ui\controller\UserController$8.class
 com\school\administration\app\security\SecurityConstant.class
+com\school\administration\app\shared\dto\QrenNotifDto.class
 com\school\administration\app\ui\model\request\RequestOperationStatus.class
 com\school\administration\app\security\AuthenticationFilter.class
 com\school\administration\app\shared\Utils.class
@@ -75,5 +78,6 @@ com\school\administration\app\service\AddressService.class
 com\school\administration\app\service\impl\InvoiceServiceImpl.class
 com\school\administration\app\service\RoleService.class
 com\school\administration\app\ui\controller\UserController$2.class
+com\school\administration\app\io\repositories\QrenNotifRepositories.class
 com\school\administration\app\ui\model\contentResponse\ContentProduct.class
 com\school\administration\app\ui\io\entity\TokenEntity.class

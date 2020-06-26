@@ -12,11 +12,13 @@ D:\clone git\school-administration\src\main\java\com\school\administration\app\s
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\CredsDto.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\response\AddressResponse.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\contentResponse\ContentUser.java
+D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\QrenNotifDto.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\io\entity\AddressEntity.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\QrenInvoiceDto.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\service\AddressService.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\io\repositories\InvoiceRepository.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\request\InvoiceRequestModel.java
+D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\request\QrenNotifRequestModel.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\response\InvoiceResponse.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\exceptions\UserServiceException.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\io\repositories\AddressRepositories.java
@@ -33,6 +35,7 @@ D:\clone git\school-administration\src\main\java\com\school\administration\app\s
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\ProductsDto.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\request\RoleRequestModel.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\response\ErrorMessage.java
+D:\clone git\school-administration\src\main\java\com\school\administration\app\io\repositories\QrenNotifRepositories.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\io\entity\TransactionEntity.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\contentResponse\ContentInvoice.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\response\UserResponse.java
@@ -62,6 +65,7 @@ D:\clone git\school-administration\src\main\java\com\school\administration\app\u
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\request\LoginRequestModel.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\dto\ForbiddenDto.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\model\contentResponse\ContentInvoices.java
+D:\clone git\school-administration\src\main\java\com\school\administration\app\ui\io\entity\QrenNotifEntity.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\ScheduledTasks.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\shared\Utils.java
 D:\clone git\school-administration\src\main\java\com\school\administration\app\WebConfig.java

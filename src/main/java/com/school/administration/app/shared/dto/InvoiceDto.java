@@ -16,6 +16,7 @@ public class InvoiceDto implements Serializable{
 	private String info;
 	private String invoiceDate;
 	private Boolean isPayment;
+	private String transactionId;
 	private String createdBy;
 	private String modifiedBy;
 	private String createdDate;
@@ -112,5 +113,11 @@ public class InvoiceDto implements Serializable{
 	}
 	public void setUserId(UserDto userId) {
 		this.userId = userId;
+	}
+	public String getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 }

@@ -71,8 +71,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		InvoiceEntity invoiceEntity = modelMapper.map(invoice, InvoiceEntity.class);
 		
 		UserEntity userEntity = userRepository.findUserByUserId(userId);
-		
-		System.out.println(userId);
+	
 		invoiceEntity.setUserId(userEntity);
 		invoiceEntity.setUser(userId);
 		
@@ -83,6 +82,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoiceEntity.setInvoiceName("Invoice Pembayaran "+productEntity.getProductName());
 		invoiceEntity.setNominal(productEntity.getPrice());
 		invoiceEntity.setInfo(invoiceEntity.getInvoiceName());
+		
+		String transactionId = utils.generateTransactionId(5);
+		
+		invoiceEntity.setTransactionId(userEntity.getUsername()+transactionId);
 		
 		
 //		System.out.println(request.getHeader("Authorization"));
@@ -95,6 +98,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			qrenInvoiceDto.setInvoiceName("Invoice Pembayaran "+productEntity.getProductName()+" a/n "+userEntity.getFullName());
 			qrenInvoiceDto.setQrGaruda("1");
 			qrenInvoiceDto.setInfo(invoiceEntity.getInvoiceName());
+			qrenInvoiceDto.setTrxId(invoiceEntity.getTransactionId());
 			
 			ObjectMapper obj = new ObjectMapper();
 			

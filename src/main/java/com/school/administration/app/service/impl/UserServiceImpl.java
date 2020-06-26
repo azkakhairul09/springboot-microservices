@@ -176,6 +176,12 @@ public class UserServiceImpl implements UserService {
 			String addressId = userEntity.getAddress().getAddressId();
 			AddressEntity addressEntity = addressRepository.findByAddressId(addressId);
 			
+			addressEntity.setFullAddress(userDto.getAddress().getFullAddress());
+			addressEntity.setProvince(userDto.getAddress().getProvince());
+			addressEntity.setCity(userDto.getAddress().getCity());
+			addressEntity.setDistrict(userDto.getAddress().getDistrict());
+			addressEntity.setSubDistrict(userDto.getAddress().getSubDistrict());
+			addressEntity.setPostalCode(userDto.getAddress().getPostalCode());
 			addressRepository.save(addressEntity);
 			
 			userEntity.setFullName(userDto.getFullName());

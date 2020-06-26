@@ -14,6 +14,7 @@ public class QrenInvoiceDto implements Serializable{
 	private String invoiceName;
 	private String qrGaruda;
 	private String info;
+	private String trxId;
 	public String getMerchantApiKey() {
 		return merchantApiKey;
 	}
@@ -49,5 +50,11 @@ public class QrenInvoiceDto implements Serializable{
 	}
 	public void setInfo(String info) {
 		this.info = info;
+	}
+	public String getTrxId() {
+		return trxId;
+	}
+	public void setTrxId(String trxId) {
+		this.trxId = trxId;
 	}
 }
