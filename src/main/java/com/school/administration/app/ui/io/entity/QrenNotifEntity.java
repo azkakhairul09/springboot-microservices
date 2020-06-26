@@ -28,6 +28,8 @@ public class QrenNotifEntity implements Serializable {
 	private String trxId;
 	private String qrenTransId;
 	private String message;
+	private String timeStamp;
+	private String userId;
 
 	public long getId() {
 		return id;
@@ -91,5 +93,21 @@ public class QrenNotifEntity implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(String timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

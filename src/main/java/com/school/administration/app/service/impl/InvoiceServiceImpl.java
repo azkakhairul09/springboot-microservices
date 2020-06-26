@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.administration.app.exceptions.UserServiceException;
 import com.school.administration.app.io.repositories.InvoiceRepository;
 import com.school.administration.app.io.repositories.ProductsRepository;
+import com.school.administration.app.io.repositories.TransactionRepository;
 import com.school.administration.app.io.repositories.UserRepository;
 import com.school.administration.app.service.InvoiceService;
 import com.school.administration.app.shared.Utils;
@@ -39,6 +40,7 @@ import com.school.administration.app.shared.dto.InvoiceDto;
 import com.school.administration.app.shared.dto.QrenInvoiceDto;
 import com.school.administration.app.ui.io.entity.InvoiceEntity;
 import com.school.administration.app.ui.io.entity.ProductsEntity;
+import com.school.administration.app.ui.io.entity.TransactionEntity;
 import com.school.administration.app.ui.io.entity.UserEntity;
 
 @Service
@@ -52,6 +54,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 	
 	@Autowired
 	InvoiceRepository invoiceRepository; 
+
+	@Autowired
+	TransactionRepository transactionRepository; 
 	
 	@Autowired
 	HttpServletRequest request;
@@ -85,8 +90,13 @@ public class InvoiceServiceImpl implements InvoiceService{
 		
 		String transactionId = utils.generateTransactionId(5);
 		
-		invoiceEntity.setTransactionId(userEntity.getUsername()+transactionId);
+		invoiceEntity.setTransactionId(transactionId+"-"+userEntity.getUserId());
 		
+		TransactionEntity transactionEntity = new TransactionEntity();
+		
+		transactionEntity.setTransactionId(transactionId+"-"+userEntity.getUserId());
+		transactionEntity.setInfo(invoiceEntity.getInvoiceName());
+		transactionEntity.setUserId(userEntity.getUserId());
 		
 //		System.out.println(request.getHeader("Authorization"));
 		try {		
@@ -127,6 +137,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			
 			JSONObject qrenResponse = new JSONObject(result);
 			invoiceEntity.setInvoiceId(qrenResponse.getString("invoiceId"));
+			transactionEntity.setInvoiceId(qrenResponse.getString("invoiceId"));
 			invoiceEntity.setQrContent(qrenResponse.getString("content"));
 			
 			in.close();
@@ -159,6 +170,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 		
 		String createdDate = format.format(createdTime.getTime());
 		invoiceEntity.setCreatedDate(createdDate);
+		
+		transactionRepository.save(transactionEntity);
 		
 		InvoiceEntity invoiceDetail = invoiceRepository.save(invoiceEntity);
 		

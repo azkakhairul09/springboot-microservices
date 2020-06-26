@@ -578,7 +578,9 @@ public class UserController {
 			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 			)
-		public void qrenNotif(QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception {
+		public void getPaymentNotification(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception {
+		
+			System.out.println(qrenNotif.getMerchantApiKey() + " QREN");
 			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
 			
 			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
@@ -589,6 +591,22 @@ public class UserController {
 			qrenNotifEntity.setQrenTransId(qrenNotif.getQrentransid());
 			qrenNotifEntity.setMessage(qrenNotif.getMessage());
 			
+			String trxId = qrenNotif.getTrxId();
+			String[] parts = trxId.split("-");
+			String userId = parts[1];
+			
+			System.out.println(userId);
+			
+			qrenNotifEntity.setUserId(userId);
+			
+			final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+			SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+			formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+			Calendar currentTime = Calendar.getInstance();
+			String timeStamp = formatter.format(currentTime.getTime());
+			
+			qrenNotifEntity.setTimeStamp(timeStamp);
+			
 			QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
 			qrenNotifRepository.save(qrenNotifEntity);
 			
@@ -598,12 +616,12 @@ public class UserController {
 			
 			Calendar cal = Calendar.getInstance();
 			
-			String timeStamp = format.format(cal.getTime());
+			String responseTimeStamp = format.format(cal.getTime());
 			
 			QrenNotifDto qrenNotifDto = new QrenNotifDto();
 			qrenNotifDto.setStatus("0");
 			qrenNotifDto.setMessage("payment success");
-			qrenNotifDto.setTimeStamp(timeStamp);
+			qrenNotifDto.setTimeStamp(responseTimeStamp);
 			
 			// Creating Object of ObjectMapper define in Jakson Api 
 	        ObjectMapper Obj = new ObjectMapper(); 

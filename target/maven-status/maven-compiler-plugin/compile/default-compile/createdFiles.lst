@@ -1,8 +1,10 @@
 com\school\administration\app\ui\model\request\LoginRequestModel.class
 com\school\administration\app\ui\model\request\TransactionRequestModel.class
+com\school\administration\app\io\repositories\TransactionRepository.class
 com\school\administration\app\shared\dto\QrenInvoiceDto.class
 com\school\administration\app\shared\dto\InvoiceDto.class
 com\school\administration\app\ui\model\contentResponse\ContentInvoice.class
+com\school\administration\app\shared\dto\QrenNotifPaymentDto.class
 com\school\administration\app\io\repositories\UserRepository.class
 com\school\administration\app\shared\dto\UserDto.class
 com\school\administration\app\exceptions\AppExceptionHandler.class
