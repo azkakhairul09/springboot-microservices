@@ -599,7 +599,7 @@ public class UserController {
 			
 			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
 			qrenNotifEntity.setStatus(qrenNotif.getStatus());
-			if (qrenNotif.getStatus() == "0") {
+			if (qrenNotif.getMessage() == "success") {
 				transactionEntity.setStatus("Success");
 			} else {
 				transactionEntity.setStatus("Gagal");
