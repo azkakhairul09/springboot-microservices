@@ -34,7 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.administration.app.SpringApplicationContext;
+import com.school.administration.app.io.repositories.InvoiceRepository;
 import com.school.administration.app.io.repositories.QrenNotifRepositories;
+import com.school.administration.app.io.repositories.TransactionRepository;
 import com.school.administration.app.io.repositories.UserRepository;
 import com.school.administration.app.security.SecurityConstant;
 import com.school.administration.app.service.AddressService;
@@ -47,7 +49,9 @@ import com.school.administration.app.shared.dto.ProductsDto;
 import com.school.administration.app.shared.dto.QrenNotifDto;
 import com.school.administration.app.shared.dto.RoleDto;
 import com.school.administration.app.shared.dto.UserDto;
+import com.school.administration.app.ui.io.entity.InvoiceEntity;
 import com.school.administration.app.ui.io.entity.QrenNotifEntity;
+import com.school.administration.app.ui.io.entity.TransactionEntity;
 import com.school.administration.app.ui.io.entity.UserEntity;
 import com.school.administration.app.ui.model.contentResponse.ContentInvoice;
 import com.school.administration.app.ui.model.contentResponse.ContentInvoices;
@@ -578,14 +582,31 @@ public class UserController {
 			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 			)
-		public void getPaymentNotification(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception {
+		public void getPaymentNotification(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception 
+		{
+			TransactionRepository transactionRepository = (TransactionRepository) SpringApplicationContext.getBean("transactionRepository");
+			InvoiceRepository invoiceRepository = (InvoiceRepository) SpringApplicationContext.getBean("invoiceRepository");
 		
-			System.out.println(qrenNotif.getMerchantApiKey() + " QREN");
 			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
+			TransactionEntity transactionEntity = transactionRepository.findByTransactionId(qrenNotif.getTrxId());
+			InvoiceEntity invoiceEntity = invoiceRepository.findInvoiceByInvoiceId(qrenNotif.getInvoice());
+			
+			System.out.println(transactionEntity.getTransactionId()+ " transaction");
+			System.out.println(invoiceEntity.getInvoiceId()+ " invoice");
+			
+			invoiceEntity.setIsPayment(true);
+			invoiceEntity.setModifiedBy("System");
 			
 			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
 			qrenNotifEntity.setStatus(qrenNotif.getStatus());
+			if (qrenNotif.getStatus() == "0") {
+				transactionEntity.setStatus("Success");
+			} else {
+				transactionEntity.setStatus("Gagal");
+			}
+			
 			qrenNotifEntity.setAmount(qrenNotif.getAmount());
+			transactionEntity.setAmount(qrenNotif.getAmount());
 			qrenNotifEntity.setMerchantApiKey(qrenNotif.getMerchantApiKey());
 			qrenNotifEntity.setTrxId(qrenNotif.getTrxId());
 			qrenNotifEntity.setQrenTransId(qrenNotif.getQrentransid());
@@ -594,8 +615,6 @@ public class UserController {
 			String trxId = qrenNotif.getTrxId();
 			String[] parts = trxId.split("-");
 			String userId = parts[1];
-			
-			System.out.println(userId);
 			
 			qrenNotifEntity.setUserId(userId);
 			
@@ -606,9 +625,14 @@ public class UserController {
 			String timeStamp = formatter.format(currentTime.getTime());
 			
 			qrenNotifEntity.setTimeStamp(timeStamp);
+			transactionEntity.setSolvedDate(timeStamp);
+			invoiceEntity.setModifiedDate(timeStamp);
 			
 			QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
 			qrenNotifRepository.save(qrenNotifEntity);
+			
+			transactionRepository.save(transactionEntity);
+			invoiceRepository.save(invoiceEntity);
 			
 			final String CREATED_DATE = "yyyy-MM-dd HH:mm:ss";
 			SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);

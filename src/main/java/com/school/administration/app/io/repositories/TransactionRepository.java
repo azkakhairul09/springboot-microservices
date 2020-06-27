@@ -6,5 +6,6 @@ import com.school.administration.app.ui.io.entity.TransactionEntity;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
-
+	TransactionEntity findByTransactionId(String transactionId);
+	TransactionEntity findByUserId(String userId);
 }

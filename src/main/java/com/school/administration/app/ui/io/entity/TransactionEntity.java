@@ -33,16 +33,16 @@ public class TransactionEntity implements Serializable {
 	@Column(nullable = false)
 	private String userId;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String amount;
 	
 	@Column(nullable = false)
 	private String info;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String solvedDate;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String status;
 	
 	@Column

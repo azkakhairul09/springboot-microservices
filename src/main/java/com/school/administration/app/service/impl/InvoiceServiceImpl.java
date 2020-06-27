@@ -97,6 +97,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 		transactionEntity.setTransactionId(transactionId+"-"+userEntity.getUserId());
 		transactionEntity.setInfo(invoiceEntity.getInvoiceName());
 		transactionEntity.setUserId(userEntity.getUserId());
+		transactionEntity.setAdminChecking("false");
+		transactionEntity.setTrxVerified(false);
 		
 //		System.out.println(request.getHeader("Authorization"));
 		try {		
