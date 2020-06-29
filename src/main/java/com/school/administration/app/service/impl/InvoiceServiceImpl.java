@@ -164,7 +164,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		
 		invoiceEntity.setCreatedBy(authentication.getName());
 		
-		final String CREATED_DATE = "yyyy-MM-dd HH:mm:ss";
+		final String CREATED_DATE = "yyyy-MM-dd HH:mm";
 		SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);
 		format.setTimeZone(TimeZone.getTimeZone("GMT+7"));
 		

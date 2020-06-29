@@ -121,7 +121,7 @@ public class UserController {
 	}
 	
 	@PostMapping(
-			path = "/roles",
+			path = "/create-role",
 			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 			)
