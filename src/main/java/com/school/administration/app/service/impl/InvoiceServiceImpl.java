@@ -21,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -67,9 +64,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Override
 	public InvoiceDto createInvoice(String userId, String productId, InvoiceDto invoice) {
 		// TODO Auto-generated method stub	
-		
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
 		
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -162,7 +156,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoiceEntity.setIsPayment(false);
 		invoiceEntity.setIsExpired(false);
 		
-		invoiceEntity.setCreatedBy(authentication.getName());
+		invoiceEntity.setCreatedBy(userEntity.getUserId());
 		
 		final String CREATED_DATE = "yyyy-MM-dd HH:mm";
 		SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);

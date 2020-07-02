@@ -9,6 +9,7 @@ public class InvoiceResponse {
 	private String productName;
 	private String invoiceDate;
 	private String qrContent;
+	private String transactionId;
 	public String getInvoiceId() {
 		return invoiceId;
 	}
@@ -56,5 +57,11 @@ public class InvoiceResponse {
 	}
 	public void setIsPayment(Boolean isPayment) {
 		this.isPayment = isPayment;
+	}
+	public String getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 }

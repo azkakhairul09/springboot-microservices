@@ -584,39 +584,37 @@ public class UserController {
 			)
 		public void getPaymentNotification(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception 
 		{
+			
 			TransactionRepository transactionRepository = (TransactionRepository) SpringApplicationContext.getBean("transactionRepository");
 			InvoiceRepository invoiceRepository = (InvoiceRepository) SpringApplicationContext.getBean("invoiceRepository");
 		
 			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
-//			TransactionEntity transactionEntity = transactionRepository.findByTransactionId(qrenNotif.getTrxId());
-//			InvoiceEntity invoiceEntity = invoiceRepository.findInvoiceByInvoiceId(qrenNotif.getInvoice());
-//			
-//			System.out.println(transactionEntity.getTransactionId()+ " transaction");
-//			System.out.println(invoiceEntity.getInvoiceId()+ " invoice");
-//			
-//			invoiceEntity.setIsPayment(true);
-//			invoiceEntity.setModifiedBy("System");
+			TransactionEntity transactionEntity = transactionRepository.findByTransactionId(qrenNotif.getTrxId());
+			InvoiceEntity invoiceEntity = invoiceRepository.findInvoiceByInvoiceId(qrenNotif.getInvoice());
+			
+			invoiceEntity.setIsPayment(true);
+			invoiceEntity.setModifiedBy("System");
 			
 			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
 			qrenNotifEntity.setStatus(qrenNotif.getStatus());
-//			if (qrenNotif.getMessage() == "success") {
-//				transactionEntity.setStatus("Success");
-//			} else {
-//				transactionEntity.setStatus("Gagal");
-//			}
+			if (qrenNotif.getMessage().equals("success")) {
+				transactionEntity.setStatus("Success");
+			} else {
+				transactionEntity.setStatus("Gagal");
+			}
 //			
 			qrenNotifEntity.setAmount(qrenNotif.getAmount());
-//			transactionEntity.setAmount(qrenNotif.getAmount());
+			transactionEntity.setAmount(qrenNotif.getAmount());
 			qrenNotifEntity.setMerchantApiKey(qrenNotif.getMerchantApiKey());
 			qrenNotifEntity.setTrxId(qrenNotif.getTrxId());
 			qrenNotifEntity.setQrenTransId(qrenNotif.getQrentransid());
 			qrenNotifEntity.setMessage(qrenNotif.getMessage());
 			
-			String trxId = qrenNotif.getTrxId();
-			String[] parts = trxId.split("-");
-			String userId = parts[1];
-			
-			qrenNotifEntity.setUserId(userId);
+//			String trxId = qrenNotif.getTrxId();
+//			String[] parts = trxId.split("-");
+//			String userId = parts[1];
+//			
+//			qrenNotifEntity.setUserId(userId);
 			
 			final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 			SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
@@ -624,15 +622,15 @@ public class UserController {
 			Calendar currentTime = Calendar.getInstance();
 			String timeStamp = formatter.format(currentTime.getTime());
 			
-			qrenNotifEntity.setTimeStamp(timeStamp);
-//			transactionEntity.setSolvedDate(timeStamp);
-//			invoiceEntity.setModifiedDate(timeStamp);
+			qrenNotifEntity.setTimeStamp(timeStamp);	
+			transactionEntity.setSolvedDate(timeStamp);
+			invoiceEntity.setModifiedDate(timeStamp);
 			
 			QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
 			qrenNotifRepository.save(qrenNotifEntity);
 			
-//			transactionRepository.save(transactionEntity);
-//			invoiceRepository.save(invoiceEntity);
+			transactionRepository.save(transactionEntity);
+			invoiceRepository.save(invoiceEntity);
 			
 			final String CREATED_DATE = "yyyy-MM-dd HH:mm:ss";
 			SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);
@@ -662,6 +660,62 @@ public class UserController {
 	    		res.getWriter().close();
 	    		
 //	    		System.out.println(response);
+	        } 
+	        catch (IOException e) 
+	        { 
+	            e.printStackTrace(); 
+	        }       
+		}
+	
+	@PostMapping(
+			path = "/qren_payment_notification_dev",
+			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+			)
+		public void getPaymentNotificationDev(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception 
+		{
+			System.out.println(qrenNotif.getMerchantApiKey());
+	
+			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
+			
+			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
+			qrenNotifEntity.setStatus(qrenNotif.getStatus());
+//			
+			qrenNotifEntity.setAmount(qrenNotif.getAmount());
+			qrenNotifEntity.setMerchantApiKey(qrenNotif.getMerchantApiKey());
+			qrenNotifEntity.setTrxId(qrenNotif.getTrxId());
+			qrenNotifEntity.setQrenTransId(qrenNotif.getQrentransid());
+			qrenNotifEntity.setMessage(qrenNotif.getMessage());
+			
+			QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
+			qrenNotifRepository.save(qrenNotifEntity);
+			
+			final String CREATED_DATE = "yyyy-MM-dd HH:mm:ss";
+			SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);
+			format.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+			
+			Calendar cal = Calendar.getInstance();
+			
+			String responseTimeStamp = format.format(cal.getTime());
+			
+			QrenNotifDto qrenNotifDto = new QrenNotifDto();
+			qrenNotifDto.setStatus("0");
+			qrenNotifDto.setMessage("payment success");
+			qrenNotifDto.setTimeStamp(responseTimeStamp);
+			
+			// Creating Object of ObjectMapper define in Jakson Api 
+	        ObjectMapper Obj = new ObjectMapper(); 
+	  
+	        try 
+	        { 
+	            // set object as a json string 
+	            String response = Obj.writeValueAsString(qrenNotifDto);
+	                     
+	            res.setStatus(HttpServletResponse.SC_OK);
+	    		res.setContentType("application/json");
+	    		res.getWriter().println(response);
+	    		res.getWriter().flush();
+	    		res.getWriter().close();
 	        } 
 	        catch (IOException e) 
 	        { 

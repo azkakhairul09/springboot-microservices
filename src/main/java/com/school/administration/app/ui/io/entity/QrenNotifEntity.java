@@ -29,7 +29,7 @@ public class QrenNotifEntity implements Serializable {
 	private String qrenTransId;
 	private String message;
 	private String timeStamp;
-	private String userId;
+//	private String userId;
 
 	public long getId() {
 		return id;
@@ -102,12 +102,12 @@ public class QrenNotifEntity implements Serializable {
 	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+//
+//	public String getUserId() {
+//		return userId;
+//	}
+//
+//	public void setUserId(String userId) {
+//		this.userId = userId;
+//	}
 }

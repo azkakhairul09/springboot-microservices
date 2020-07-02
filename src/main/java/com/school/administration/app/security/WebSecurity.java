@@ -39,6 +39,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstant.QREN_NOTIF)
 			.permitAll()
+			.antMatchers(HttpMethod.POST, SecurityConstant.QREN_NOTIF_DEV)
+			.permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstant.HELLOWORLD)
 			.permitAll()
 			.antMatchers(HttpMethod.GET, SecurityConstant.VERIFICATION_EMAIL_URL)
