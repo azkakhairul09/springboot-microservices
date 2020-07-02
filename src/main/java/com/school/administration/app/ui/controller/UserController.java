@@ -588,25 +588,25 @@ public class UserController {
 			InvoiceRepository invoiceRepository = (InvoiceRepository) SpringApplicationContext.getBean("invoiceRepository");
 		
 			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
-			TransactionEntity transactionEntity = transactionRepository.findByTransactionId(qrenNotif.getTrxId());
-			InvoiceEntity invoiceEntity = invoiceRepository.findInvoiceByInvoiceId(qrenNotif.getInvoice());
-			
-			System.out.println(transactionEntity.getTransactionId()+ " transaction");
-			System.out.println(invoiceEntity.getInvoiceId()+ " invoice");
-			
-			invoiceEntity.setIsPayment(true);
-			invoiceEntity.setModifiedBy("System");
+//			TransactionEntity transactionEntity = transactionRepository.findByTransactionId(qrenNotif.getTrxId());
+//			InvoiceEntity invoiceEntity = invoiceRepository.findInvoiceByInvoiceId(qrenNotif.getInvoice());
+//			
+//			System.out.println(transactionEntity.getTransactionId()+ " transaction");
+//			System.out.println(invoiceEntity.getInvoiceId()+ " invoice");
+//			
+//			invoiceEntity.setIsPayment(true);
+//			invoiceEntity.setModifiedBy("System");
 			
 			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
 			qrenNotifEntity.setStatus(qrenNotif.getStatus());
-			if (qrenNotif.getMessage() == "success") {
-				transactionEntity.setStatus("Success");
-			} else {
-				transactionEntity.setStatus("Gagal");
-			}
-			
+//			if (qrenNotif.getMessage() == "success") {
+//				transactionEntity.setStatus("Success");
+//			} else {
+//				transactionEntity.setStatus("Gagal");
+//			}
+//			
 			qrenNotifEntity.setAmount(qrenNotif.getAmount());
-			transactionEntity.setAmount(qrenNotif.getAmount());
+//			transactionEntity.setAmount(qrenNotif.getAmount());
 			qrenNotifEntity.setMerchantApiKey(qrenNotif.getMerchantApiKey());
 			qrenNotifEntity.setTrxId(qrenNotif.getTrxId());
 			qrenNotifEntity.setQrenTransId(qrenNotif.getQrentransid());
@@ -625,14 +625,14 @@ public class UserController {
 			String timeStamp = formatter.format(currentTime.getTime());
 			
 			qrenNotifEntity.setTimeStamp(timeStamp);
-			transactionEntity.setSolvedDate(timeStamp);
-			invoiceEntity.setModifiedDate(timeStamp);
+//			transactionEntity.setSolvedDate(timeStamp);
+//			invoiceEntity.setModifiedDate(timeStamp);
 			
 			QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
 			qrenNotifRepository.save(qrenNotifEntity);
 			
-			transactionRepository.save(transactionEntity);
-			invoiceRepository.save(invoiceEntity);
+//			transactionRepository.save(transactionEntity);
+//			invoiceRepository.save(invoiceEntity);
 			
 			final String CREATED_DATE = "yyyy-MM-dd HH:mm:ss";
 			SimpleDateFormat format = new SimpleDateFormat(CREATED_DATE);
