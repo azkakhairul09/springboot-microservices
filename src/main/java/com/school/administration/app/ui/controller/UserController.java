@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.administration.app.SpringApplicationContext;
+import com.school.administration.app.exceptions.UserServiceException;
 import com.school.administration.app.io.repositories.InvoiceRepository;
 import com.school.administration.app.io.repositories.QrenNotifRepositories;
 import com.school.administration.app.io.repositories.TransactionRepository;
@@ -722,4 +723,43 @@ public class UserController {
 	            e.printStackTrace(); 
 	        }       
 		}
+	
+	@GetMapping(path = "/get-payment-notif", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public void getPaymentNotif(@RequestParam(value = "invoice") String invoice, HttpServletResponse res) 
+			throws IOException, ServletException{
+		QrenNotifRepositories qrenNotifRepository = (QrenNotifRepositories) SpringApplicationContext.getBean("qrenNotifRepositories");
+		QrenNotifEntity paymentNotif = qrenNotifRepository.findByInvoiceId(invoice);
+		
+		if (paymentNotif == null) throw new UserServiceException(
+				"invoice not found");
+		
+		paymentNotif.getInvoiceId();
+		paymentNotif.getStatus();
+		paymentNotif.getAmount();
+		paymentNotif.getMerchantApiKey();
+		paymentNotif.getTrxId();
+		paymentNotif.getQrenTransId();
+		paymentNotif.getMessage();
+		
+		// Creating Object of ObjectMapper define in Jakson Api 
+        ObjectMapper Obj = new ObjectMapper(); 
+  
+        try 
+        { 
+            // set object as a json string 
+            String response = Obj.writeValueAsString(paymentNotif);
+                     
+            res.setStatus(HttpServletResponse.SC_OK);
+    		res.setContentType("application/json");
+    		res.getWriter().println(response);
+    		res.getWriter().flush();
+    		res.getWriter().close();
+        } 
+        catch (IOException e) 
+        { 
+            e.printStackTrace(); 
+        }       
+		
+	}
 }

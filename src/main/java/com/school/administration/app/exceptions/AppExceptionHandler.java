@@ -158,6 +158,17 @@ public class AppExceptionHandler {
 			
 			return new ResponseEntity<>(errorMessage, oke);
 		}
+		else if (queryString.equals("/get-payment-notif")) 
+		{
+			String errorCode = "err91";
+			String status = "failed get invoice";
+			HttpStatus oke = HttpStatus.valueOf(200);
+			Date date = Calendar.getInstance().getTime();
+			
+			ErrorMessage errorMessage = new ErrorMessage(errorCode, status, ex.getLocalizedMessage(), date);
+			
+			return new ResponseEntity<>(errorMessage, oke);
+		}
 		
 		return null;		
 	}

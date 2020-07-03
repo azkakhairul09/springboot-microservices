@@ -7,4 +7,5 @@ import com.school.administration.app.ui.io.entity.QrenNotifEntity;
 
 @Repository
 public interface QrenNotifRepositories extends JpaRepository<QrenNotifEntity, Long> {
+	QrenNotifEntity findByInvoiceId(String invoice);
 }
