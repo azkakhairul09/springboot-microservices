@@ -48,11 +48,11 @@ public class ScheduledTasks {
 		List<ProductsEntity> productEntity = new ArrayList<ProductsEntity>();
 		productEntity = productRepository.findProductByExpiredDate(date_yest);
 		
-		System.out.println("SCHEDULE DATE YEST " +date_yest);
+//		System.out.println("SCHEDULE DATE YEST " +date_yest);
 		
 		for (ProductsEntity product : productEntity)
 		{
-			System.out.println("PRODUCT "+product);
+//			System.out.println("PRODUCT "+product);
 			if (product.getIsExpired() == false) 
 			{
 				product.setIsExpired(true);
@@ -90,11 +90,11 @@ public class ScheduledTasks {
 		List<ProductsEntity> productEntity = new ArrayList<ProductsEntity>();
 		productEntity = productRepository.findProductByExpiredDate(date);
 		
-		System.out.println("SCHEDULE DATE " +date);
+//		System.out.println("SCHEDULE DATE " +date);
 		
 		for (ProductsEntity product : productEntity)
 		{
-			System.out.println("PRODUCT "+product);
+//			System.out.println("PRODUCT "+product);
 			if (product.getIsExpired() == false) 
 			{
 				product.setIsExpired(true);
@@ -166,21 +166,23 @@ public class ScheduledTasks {
 	}
     
     
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "*/60 * * * * *")
     public InvoiceDto updateInvoice() {
     	InvoiceDto returnValue = new InvoiceDto();
     	
     	Calendar calendar = Calendar.getInstance();
     	calendar.add(Calendar.HOUR_OF_DAY, -1);
     	Date date = calendar.getTime();
-    	SimpleDateFormat sdfStopTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	SimpleDateFormat sdfStopTime = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     	String newStopTime = sdfStopTime.format(date);
     	
 		List<InvoiceEntity> invoiceEntity = new ArrayList<InvoiceEntity>();
 		invoiceEntity = invoiceRepository.findInvoiceByCreatedDate(newStopTime);
+		System.out.println("hadaw" + newStopTime);
     	
 		for (InvoiceEntity invoice : invoiceEntity) 
 		{
+			System.out.println(invoice);
 			if (invoice.getIsPayment() == false && invoice.getIsExpired() == false) 
 			{
 				invoice.setIsExpired(true);
@@ -200,7 +202,7 @@ public class ScheduledTasks {
 				BeanUtils.copyProperties(updateInvoice,  returnValue);
 			}
 		}
-		System.out.println("hadaw");
+//		System.out.println("hadaw");
     	return returnValue;	
     }
 }

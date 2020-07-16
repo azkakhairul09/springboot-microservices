@@ -24,7 +24,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -74,7 +73,6 @@ import com.school.administration.app.ui.model.response.ProductResponse;
 import com.school.administration.app.ui.model.response.RoleResponse;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000/", "https://sangbango-project.web.app/"})
 public class UserController {
 
 	@Autowired
@@ -585,7 +583,11 @@ public class UserController {
 			)
 		public void getPaymentNotification(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception 
 		{
+			ObjectMapper obj = new ObjectMapper();
 			
+			String json = obj.writeValueAsString(qrenNotif);
+			System.out.println(json);
+		
 			TransactionRepository transactionRepository = (TransactionRepository) SpringApplicationContext.getBean("transactionRepository");
 			InvoiceRepository invoiceRepository = (InvoiceRepository) SpringApplicationContext.getBean("invoiceRepository");
 		
@@ -675,8 +677,12 @@ public class UserController {
 			)
 		public void getPaymentNotificationDev(@RequestBody QrenNotifRequestModel qrenNotif, HttpServletResponse res) throws Exception 
 		{
-			System.out.println(qrenNotif.getMerchantApiKey());
-	
+			
+			ObjectMapper obj = new ObjectMapper();
+			
+			String json = obj.writeValueAsString(qrenNotif);
+			System.out.println(json);
+			
 			QrenNotifEntity qrenNotifEntity = new QrenNotifEntity();
 			
 			qrenNotifEntity.setInvoiceId(qrenNotif.getInvoice());
